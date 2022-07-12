@@ -11,5 +11,4 @@ class Api::V1::MerchantsController < ApplicationController
     # render json: MerchantSerializer.new(merchant)
     render(json: MerchantSerializer.new(merchant), status: :ok)
   end
-
 end
