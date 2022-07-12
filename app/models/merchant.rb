@@ -6,4 +6,8 @@ class Merchant < ApplicationRecord
   has_many :customers, through: :invoices
 
   validates_presence_of :name
+
+  def self.find_merchant(name)
+    where("name ILIKE ?", "%#{name}%").first
+  end
 end
