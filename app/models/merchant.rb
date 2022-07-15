@@ -10,4 +10,8 @@ class Merchant < ApplicationRecord
   def self.find_merchant(name)
     where("name ILIKE ?", "%#{name}%").first
   end
+
+  def self.find_all_merchants(name)
+   where("name ilike ?", "%#{name.strip}%")
+ end
 end
