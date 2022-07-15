@@ -61,4 +61,44 @@ describe 'Items Search API Endpoints' do
     expect(response.code).to eq("400")
     expect(response.status).to eq(400)
   end
+
+  it 'returns item greater than a minimum given price' do
+    hielo = create(:item, name: "Hielo")
+    lila = create(:item, name: "Lila", unit_price: 1000)
+    fiel = create(:item, name: "Fiel", unit_price: 1500)
+
+    get '/api/v1/items/find?min_price=1200'
+
+    expect(response).to be_successful
+
+    search = JSON.parse(response.body, symbolize_names: true)
+    expect(search).to be_an(Hash)
+    expect(search).to have_key(:data)
+
+    data = search[:data]
+    expect(data).to be_an(Hash)
+    expect(data[:id]).to be_an(String)
+    expect(data[:type]).to eq("item")
+    expect(data[:attributes]).to be_an(Hash)
+end
+
+  it 'returns item less than a maximum given price' do
+    hielo = create(:item, name: "Hielo")
+    lila = create(:item, name: "Lila", unit_price: 1000)
+    fiel = create(:item, name: "Fiel", unit_price: 1500)
+
+    get '/api/v1/items/find?max_price=1200'
+
+    expect(response).to be_successful
+
+    search = JSON.parse(response.body, symbolize_names: true)
+    expect(search).to be_an(Hash)
+    expect(search).to have_key(:data)
+
+    data = search[:data]
+    expect(data).to be_an(Hash)
+    expect(data[:id]).to be_an(String)
+    expect(data[:type]).to eq("item")
+    expect(data[:attributes]).to be_an(Hash)
+  end
 end
