@@ -12,7 +12,7 @@ class Api::V1::ItemsSearchController < ApplicationController
       item = Item.find_min_price(params[:min_price])
       if item
         render json: ItemSerializer.new(item)
-      elsif item.nil? || item.unit_price < 0
+      elsif item.nil? 
         render json: { data: { message: 'Error: Item Not Found' } }
       end
     elsif params[:max_price].present?
